@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #060810;
+    color: white;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/[0.04] border border-white/10 rounded-2xl backdrop-blur-sm;
+  }
+
+  .glass-card-green {
+    @apply bg-brand-green/5 border border-brand-green/20 rounded-2xl backdrop-blur-sm;
+  }
+
+  .glass-card-blue {
+    @apply bg-brand-blue/5 border border-brand-blue/20 rounded-2xl backdrop-blur-sm;
+  }
+
+  .glass-card-gold {
+    @apply bg-brand-gold/5 border border-brand-gold/20 rounded-2xl backdrop-blur-sm;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-brand-green text-dark-950 font-bold px-6 py-3.5 rounded-xl hover:bg-brand-green/90 active:scale-95 transition-all duration-200 text-base;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-green to-brand-blue bg-clip-text text-transparent;
+  }
+
+  .gradient-text-gold {
+    @apply bg-gradient-to-r from-brand-gold to-orange-400 bg-clip-text text-transparent;
+  }
+
+  .section-title {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-slate-400 max-w-2xl mx-auto;
+  }
+
+  .shimmer-bg {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0.04) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
