@@ -30,9 +30,9 @@ function FaqItem({ item, isOpen, onToggle }) {
     <div className="glass-card overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-6 text-left hover:bg-white/[0.02] transition-colors"
+        className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors"
       >
-        <span className="text-white font-semibold pr-4">{item.q}</span>
+        <span className="text-gray-900 dark:text-white font-semibold pr-4">{item.q}</span>
         <span className="flex-shrink-0 text-brand-green">
           {isOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
         </span>
@@ -46,7 +46,7 @@ function FaqItem({ item, isOpen, onToggle }) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
           >
-            <p className="px-6 pb-6 text-slate-400 leading-relaxed">{item.a}</p>
+            <p className="px-6 pb-6 text-gray-500 dark:text-slate-400 leading-relaxed">{item.a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -59,7 +59,7 @@ export default function FaqSection() {
 
   return (
     <section id="faq" className="py-24 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-950 via-dark-900/30 to-dark-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-100/30 to-transparent dark:from-dark-950 dark:via-dark-900/30 dark:to-dark-950" />
 
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div

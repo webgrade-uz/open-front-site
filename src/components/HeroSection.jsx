@@ -9,7 +9,8 @@ import {
   FaBolt,
 } from 'react-icons/fa6'
 import { MdOutlinePayments } from 'react-icons/md'
-import { TELEGRAM_LINK, HERO_VARIANTS, HERO_VARIANT, VOTE_AMOUNT } from '../config/campaign'
+import { useConfig } from '../context/ConfigContext'
+import { HERO_VARIANTS } from '../config/campaign'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -37,10 +38,8 @@ const INTERVALS = [2600, 3100, 2400, 3400, 2900, 2700, 3200]
 let intervalIdx = 0
 
 function LivePaymentFeed() {
-  const [queue, setQueue] = useState(PAYMENT_FEED.slice(0, 3).map((p, i) => ({ ...p, uid: i })))
-  const [totalPaid, setTotalPaid] = useState(117350000)
-  const [uidCounter, setUidCounter] = useState(100)
   const [displayed, setDisplayed] = useState(PAYMENT_FEED.slice(0, 3).map((p, i) => ({ ...p, uid: i })))
+  const [totalPaid, setTotalPaid] = useState(117350000)
 
   useEffect(() => {
     let timeoutId
@@ -67,11 +66,10 @@ function LivePaymentFeed() {
 
   return (
     <div className="glass-card p-5 w-full max-w-sm">
-      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <MdOutlinePayments className="w-4 h-4 text-brand-green" />
-          <span className="text-sm font-semibold text-white">Jonli to'lovlar</span>
+          <span className="text-sm font-semibold text-gray-900 dark:text-white">Jonli to'lovlar</span>
         </div>
         <span className="flex items-center gap-1.5 text-xs text-brand-green">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
@@ -79,7 +77,6 @@ function LivePaymentFeed() {
         </span>
       </div>
 
-      {/* Feed items */}
       <div className="space-y-2 overflow-hidden" style={{ minHeight: '200px' }}>
         <AnimatePresence initial={false}>
           {displayed.map((item, i) => (
@@ -95,28 +92,27 @@ function LivePaymentFeed() {
                 {item.initials}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">{item.name}</p>
-                <p className="text-xs text-slate-500">ovoz berdi</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{item.name}</p>
+                <p className="text-xs text-gray-400 dark:text-slate-500">ovoz berdi</p>
               </div>
               <div className="text-right flex-shrink-0">
-                <p className="text-sm font-bold text-brand-green">+{item.amount}</p>
-                <p className="text-xs text-slate-500">so'm</p>
+                <p className="text-sm font-bold text-brand-green dark:text-brand-neon">+{item.amount}</p>
+                <p className="text-xs text-gray-400 dark:text-slate-500">so'm</p>
               </div>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
 
-      {/* Total */}
-      <div className="mt-4 pt-4 border-t border-white/10">
+      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">
         <div className="flex items-center justify-between">
-          <span className="text-xs text-slate-500">Jami to'langan</span>
+          <span className="text-xs text-gray-400 dark:text-slate-500">Jami to'langan</span>
           <motion.span
             key={totalPaid}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="text-sm font-bold text-white"
+            className="text-sm font-bold text-gray-900 dark:text-white"
           >
             {totalPaid.toLocaleString('ru-RU')} so'm
           </motion.span>
@@ -127,36 +123,25 @@ function LivePaymentFeed() {
 }
 
 function TrustComparison() {
-  const others = [
-    "To'lov va'da qilinadi",
-    "Hisob bloklanadi",
-    "Javob yo'q",
-  ]
-  const us = [
-    "To'lov kafolatlangan",
-    "Hisob himoyalangan",
-    "24/7 qo'llab-quvvatlash",
-  ]
+  const others = ["To'lov va'da qilinadi", "Hisob bloklanadi", "Javob yo'q"]
+  const us = ["To'lov kafolatlangan", "Hisob himoyalangan", "24/7 qo'llab-quvvatlash"]
 
   return (
     <div className="glass-card p-5 w-full max-w-sm">
       <div className="grid grid-cols-2 gap-3">
-        {/* Others */}
         <div>
-          <p className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wide">Boshqalar</p>
+          <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 mb-3 uppercase tracking-wide">Boshqalar</p>
           <div className="space-y-2">
             {others.map((item, i) => (
               <div key={i} className="flex items-start gap-2">
                 <div className="w-4 h-4 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <X className="w-2.5 h-2.5 text-red-400" />
                 </div>
-                <p className="text-xs text-slate-500 line-through">{item}</p>
+                <p className="text-xs text-gray-400 dark:text-slate-500 line-through">{item}</p>
               </div>
             ))}
           </div>
         </div>
-
-        {/* Us */}
         <div>
           <p className="text-xs font-semibold text-brand-green mb-3 uppercase tracking-wide">Biz</p>
           <div className="space-y-2">
@@ -165,7 +150,7 @@ function TrustComparison() {
                 <div className="w-4 h-4 rounded-full bg-brand-green/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="w-2.5 h-2.5 text-brand-green" />
                 </div>
-                <p className="text-xs text-white">{item}</p>
+                <p className="text-xs text-gray-900 dark:text-white">{item}</p>
               </div>
             ))}
           </div>
@@ -176,11 +161,11 @@ function TrustComparison() {
 }
 
 export default function HeroSection() {
-  const variant = HERO_VARIANTS[HERO_VARIANT]
+  const { telegramLink, heroVariant } = useConfig()
+  const variant = HERO_VARIANTS[heroVariant] || HERO_VARIANTS[1]
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-green/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl" />
@@ -189,14 +174,13 @@ export default function HeroSection() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left — copy */}
           <div>
             <motion.h1
               variants={fadeUp}
               initial="hidden"
               animate="visible"
               custom={0}
-              className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-6 whitespace-pre-line"
+              className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white leading-[1.05] mb-6 whitespace-pre-line"
             >
               {variant.headline.split('—').map((part, i, arr) =>
                 i < arr.length - 1
@@ -210,19 +194,12 @@ export default function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={1}
-              className="text-xl text-slate-400 mb-8 leading-relaxed"
+              className="text-xl text-gray-500 dark:text-slate-400 mb-8 leading-relaxed"
             >
               {variant.subheadline}
             </motion.p>
 
-            {/* Trust comparison */}
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              custom={2}
-              className="mb-8"
-            >
+            <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={2} className="mb-8">
               <TrustComparison />
             </motion.div>
 
@@ -231,7 +208,7 @@ export default function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={3}
-              className="text-slate-400 mb-6 flex items-center gap-2"
+              className="text-gray-500 dark:text-slate-400 mb-6 flex items-center gap-2"
             >
               <FaArrowDown className="w-4 h-4 text-brand-green animate-bounce" />
               {variant.extra}
@@ -258,7 +235,7 @@ export default function HeroSection() {
               className="flex flex-col sm:flex-row gap-3"
             >
               <a
-                href={TELEGRAM_LINK}
+                href={telegramLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary text-lg px-8 py-4"
@@ -268,26 +245,24 @@ export default function HeroSection() {
                 <ArrowRight className="w-5 h-5" />
               </a>
               {variant.secondaryCta && (
-                <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 border border-white/20 text-white font-semibold px-6 py-4 rounded-xl hover:bg-white/5 transition-all text-base">
+                <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white font-semibold px-6 py-4 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all text-base">
                   {variant.secondaryCta}
                 </a>
               )}
             </motion.div>
 
-            {/* Social proof */}
             <motion.div
               variants={fadeUp}
               initial="hidden"
               animate="visible"
               custom={5}
-              className="mt-6 flex items-center gap-3 text-sm text-slate-500"
+              className="mt-6 flex items-center gap-3 text-sm text-gray-400 dark:text-slate-500"
             >
               <FaCircleCheck className="w-4 h-4 text-brand-green flex-shrink-0" />
               <span>9 000+ odam allaqachon to'lov oldi</span>
             </motion.div>
           </div>
 
-          {/* Right — live feed */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -296,19 +271,18 @@ export default function HeroSection() {
           >
             <LivePaymentFeed />
 
-            {/* Trust badges */}
             <div className="flex gap-3 flex-wrap justify-center lg:justify-end">
               <div className="flex items-center gap-2 glass-card px-3 py-2">
                 <FaLock className="w-3.5 h-3.5 text-brand-green" />
-                <span className="text-xs text-slate-400">Xavfsiz</span>
+                <span className="text-xs text-gray-500 dark:text-slate-400">Xavfsiz</span>
               </div>
               <div className="flex items-center gap-2 glass-card px-3 py-2">
                 <FaBolt className="w-3.5 h-3.5 text-brand-gold" />
-                <span className="text-xs text-slate-400">Tezkor to'lov</span>
+                <span className="text-xs text-gray-500 dark:text-slate-400">Tezkor to'lov</span>
               </div>
               <div className="flex items-center gap-2 glass-card px-3 py-2">
                 <FaCircleCheck className="w-3.5 h-3.5 text-brand-blue" />
-                <span className="text-xs text-slate-400">Kafolatlangan</span>
+                <span className="text-xs text-gray-500 dark:text-slate-400">Kafolatlangan</span>
               </div>
             </div>
           </motion.div>

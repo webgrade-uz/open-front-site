@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -14,6 +15,7 @@ export default {
         },
         'brand': {
           green: '#22c55e',
+          neon:  '#BFFF00',
           blue:  '#3b82f6',
           gold:  '#f59e0b',
         },

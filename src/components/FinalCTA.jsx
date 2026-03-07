@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Send, ArrowRight } from 'lucide-react'
 import { FaCircleCheck } from 'react-icons/fa6'
-import { TELEGRAM_LINK } from '../config/campaign'
+import { useConfig } from '../context/ConfigContext'
 
 const points = [
   "Ro'yxatdan o'tish kerak emas",
@@ -10,6 +10,7 @@ const points = [
 ]
 
 export default function FinalCTA() {
+  const { telegramLink } = useConfig()
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="absolute inset-0">
@@ -28,18 +29,18 @@ export default function FinalCTA() {
             Hali kech emas
           </span>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4 leading-tight">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-4 leading-tight">
             Ovoz bering.<br />
-            <span className="gradient-text">Pul oling.</span> Shu.
+            <span className="text-brand-green dark:text-brand-neon">Pul oling.</span> Shu.
           </h2>
 
-          <p className="text-lg text-slate-400 mb-10">
+          <p className="text-lg text-gray-500 dark:text-slate-400 mb-10">
             9 000 dan ortiq odam allaqachon to'lov oldi. Navbat sizda.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             {points.map((p, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-slate-300">
+              <div key={i} className="flex items-center gap-2 text-sm text-gray-600 dark:text-slate-300">
                 <FaCircleCheck className="w-4 h-4 text-brand-green flex-shrink-0" />
                 {p}
               </div>
@@ -47,7 +48,7 @@ export default function FinalCTA() {
           </div>
 
           <a
-            href={TELEGRAM_LINK}
+            href={telegramLink}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary text-lg px-10 py-4 inline-flex"

@@ -1,14 +1,10 @@
 import { motion } from 'framer-motion'
 import { FaLock, FaBolt, FaMobileScreen, FaCircleCheck } from 'react-icons/fa6'
 import useCountUp from '../hooks/useCountUp'
-import { STATS } from '../config/campaign'
+import { useConfig } from '../context/ConfigContext'
 
 function StatCard({ stat, index }) {
   const { count, ref } = useCountUp(stat.value, 2200)
-
-  const formatted = stat.value >= 1000000
-    ? count.toLocaleString('ru-RU')
-    : count.toLocaleString('ru-RU')
 
   return (
     <motion.div
@@ -19,10 +15,10 @@ function StatCard({ stat, index }) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="glass-card p-6 text-center"
     >
-      <p className="text-3xl sm:text-4xl font-black text-white mb-1">
-        {formatted}{stat.suffix}
+      <p className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-brand-neon mb-1">
+        {count.toLocaleString('ru-RU')}{stat.suffix}
       </p>
-      <p className="text-sm text-slate-500">{stat.label}</p>
+      <p className="text-sm text-gray-400 dark:text-slate-500">{stat.label}</p>
     </motion.div>
   )
 }
@@ -35,6 +31,15 @@ const trustItems = [
 ]
 
 export default function StatsSection() {
+  const { stats, successRate: _ } = useConfig()
+
+  const STATS = [
+    { value: stats.votesCount, suffix: '', label: "Ovoz berildi" },
+    { value: Number(stats.totalPaid), suffix: '', label: "So'm to'landi" },
+    { value: stats.participantsCount, suffix: '', label: "Qatnashuvchi" },
+    { value: stats.successRate, suffix: '%', label: "To'lovni oldi" },
+  ]
+
   return (
     <section className="py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,7 +48,7 @@ export default function StatsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center text-2xl sm:text-3xl font-black text-white mb-10"
+          className="text-center text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mb-10"
         >
           Shunchaki raqamlar emas
         </motion.h2>
@@ -54,7 +59,6 @@ export default function StatsSection() {
           ))}
         </div>
 
-        {/* Trust indicators */}
         <div className="flex flex-wrap justify-center gap-4">
           {trustItems.map((item, i) => (
             <motion.div
@@ -66,7 +70,7 @@ export default function StatsSection() {
               className="flex items-center gap-2 glass-card px-4 py-2.5"
             >
               <item.icon className="w-4 h-4 text-brand-green" />
-              <span className="text-sm text-slate-300">{item.text}</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">{item.text}</span>
             </motion.div>
           ))}
         </div>
