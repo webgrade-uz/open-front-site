@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowRight, Send, X, Check } from 'lucide-react'
 import {
   FaCoins,
@@ -9,7 +9,6 @@ import {
   FaLock,
   FaBolt,
 } from 'react-icons/fa6'
-import { MdOutlinePayments } from 'react-icons/md'
 import { useConfig } from '../context/ConfigContext'
 import { HERO_VARIANTS } from '../config/campaign'
 
@@ -22,106 +21,6 @@ const fadeUp = {
   }),
 }
 
-const PAYMENT_FEED = [
-  { id: 1,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-emerald-600' },
-  { id: 2,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-violet-600'  },
-  { id: 3,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-sky-600'     },
-  { id: 4,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-rose-600'    },
-  { id: 5,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-amber-600'   },
-  { id: 6,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-fuchsia-600' },
-  { id: 7,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-indigo-600'  },
-  { id: 8,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-teal-600'    },
-  { id: 9,  name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-orange-600'  },
-  { id: 10, name: 'Shahriyor',  initials: 'Sh', amount: '5 000',  color: 'bg-cyan-600'    },
-]
-
-const INTERVALS = [2600, 3100, 2400, 3400, 2900, 2700, 3200]
-let intervalIdx = 0
-
-function LivePaymentFeed() {
-  const [displayed, setDisplayed] = useState(PAYMENT_FEED.slice(0, 3).map((p, i) => ({ ...p, uid: i })))
-  const [totalPaid, setTotalPaid] = useState(117350000)
-
-  useEffect(() => {
-    let timeoutId
-    let feedIdx = 3
-    let uid = 100
-
-    const scheduleNext = () => {
-      const delay = INTERVALS[intervalIdx % INTERVALS.length]
-      intervalIdx++
-      timeoutId = setTimeout(() => {
-        const next = PAYMENT_FEED[feedIdx % PAYMENT_FEED.length]
-        feedIdx++
-        uid++
-        const newItem = { ...next, uid }
-        setDisplayed(prev => [newItem, ...prev].slice(0, 5))
-        setTotalPaid(prev => prev + 5000)
-        scheduleNext()
-      }, delay)
-    }
-
-    scheduleNext()
-    return () => clearTimeout(timeoutId)
-  }, [])
-
-  return (
-    <div className="glass-card p-5 w-full max-w-sm">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <MdOutlinePayments className="w-4 h-4 text-brand-green" />
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">Jonli to'lovlar</span>
-        </div>
-        <span className="flex items-center gap-1.5 text-xs text-brand-green">
-          <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
-          Jonli
-        </span>
-      </div>
-
-      <div className="space-y-2 overflow-hidden" style={{ minHeight: '200px' }}>
-        <AnimatePresence initial={false}>
-          {displayed.map((item, i) => (
-            <motion.div
-              key={item.uid}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: i === 0 ? 1 : 0.6 - i * 0.1, y: 0 }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className={`flex items-center gap-3 p-2.5 rounded-lg transition-all ${i === 0 ? 'bg-brand-green/10 border border-brand-green/20' : ''}`}
-            >
-              <div className={`w-8 h-8 rounded-full ${item.color} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
-                {item.initials}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{item.name}</p>
-                <p className="text-xs text-gray-400 dark:text-slate-500">ovoz berdi</p>
-              </div>
-              <div className="text-right flex-shrink-0">
-                <p className="text-sm font-bold text-brand-green dark:text-brand-neon">+{item.amount}</p>
-                <p className="text-xs text-gray-400 dark:text-slate-500">so'm</p>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-
-      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-400 dark:text-slate-500">Jami to'langan</span>
-          <motion.span
-            key={totalPaid}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-sm font-bold text-gray-900 dark:text-white"
-          >
-            {totalPaid.toLocaleString('ru-RU')} so'm
-          </motion.span>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 function TrustComparison() {
   const others = ["To'lov va'da qilinadi", "Hisob bloklanadi", "Javob yo'q"]
@@ -181,7 +80,7 @@ export default function HeroSection() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="max-w-3xl">
           <div>
 
             {/* ── REWARD BADGE ── */}
@@ -286,36 +185,28 @@ export default function HeroSection() {
               initial="hidden"
               animate="visible"
               custom={5}
-              className="mt-6 flex items-center gap-3 text-sm text-gray-400 dark:text-slate-500"
+              className="mt-6 flex flex-wrap items-center gap-3"
             >
-              <FaCircleCheck className="w-4 h-4 text-brand-green flex-shrink-0" />
-              <span>9 000+ odam allaqachon to'lov oldi</span>
+              <div className="flex items-center gap-3 text-sm text-gray-400 dark:text-slate-500">
+                <FaCircleCheck className="w-4 h-4 text-brand-green flex-shrink-0" />
+                <span>9 000+ odam allaqachon to'lov oldi</span>
+              </div>
+              <div className="flex gap-3 flex-wrap">
+                <div className="flex items-center gap-2 glass-card px-3 py-2">
+                  <FaLock className="w-3.5 h-3.5 text-brand-green" />
+                  <span className="text-xs text-gray-500 dark:text-slate-400">Xavfsiz</span>
+                </div>
+                <div className="flex items-center gap-2 glass-card px-3 py-2">
+                  <FaBolt className="w-3.5 h-3.5 text-brand-gold" />
+                  <span className="text-xs text-gray-500 dark:text-slate-400">Tezkor to'lov</span>
+                </div>
+                <div className="flex items-center gap-2 glass-card px-3 py-2">
+                  <FaCircleCheck className="w-3.5 h-3.5 text-brand-blue" />
+                  <span className="text-xs text-gray-500 dark:text-slate-400">Kafolatlangan</span>
+                </div>
+              </div>
             </motion.div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col gap-4 items-center lg:items-end"
-          >
-            <LivePaymentFeed />
-
-            <div className="flex gap-3 flex-wrap justify-center lg:justify-end">
-              <div className="flex items-center gap-2 glass-card px-3 py-2">
-                <FaLock className="w-3.5 h-3.5 text-brand-green" />
-                <span className="text-xs text-gray-500 dark:text-slate-400">Xavfsiz</span>
-              </div>
-              <div className="flex items-center gap-2 glass-card px-3 py-2">
-                <FaBolt className="w-3.5 h-3.5 text-brand-gold" />
-                <span className="text-xs text-gray-500 dark:text-slate-400">Tezkor to'lov</span>
-              </div>
-              <div className="flex items-center gap-2 glass-card px-3 py-2">
-                <FaCircleCheck className="w-3.5 h-3.5 text-brand-blue" />
-                <span className="text-xs text-gray-500 dark:text-slate-400">Kafolatlangan</span>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>
