@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Send, X, Check } from 'lucide-react'
 import {
@@ -246,9 +247,9 @@ export default function HeroSection() {
                 <ArrowRight className="w-5 h-5" />
               </a>
               {variant.secondaryCta && (
-                <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white font-semibold px-6 py-4 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all text-base">
+                <Link to="/how-it-works" className="inline-flex items-center justify-center gap-2 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white font-semibold px-6 py-4 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all text-base">
                   {variant.secondaryCta}
-                </a>
+                </Link>
               )}
             </motion.div>
 
